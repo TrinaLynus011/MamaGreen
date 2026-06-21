@@ -51,3 +51,6 @@ backend/mamagreen.db
 backend/test_mamagreen.db
 *.log
 
+# hugging face deployment folder
+hf_space/
+
