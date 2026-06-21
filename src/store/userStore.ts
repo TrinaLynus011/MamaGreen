@@ -345,6 +345,7 @@ async function postJson<T>(path: string, body: unknown): Promise<T> {
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
+    headers["X-Authorization"] = token;
   }
   
   const res = await fetch(`${API_BASE_URL}${path}`, {
@@ -399,7 +400,8 @@ export const useUserStore = create<UserStoreState>()(
         const res = await fetch(`${API_BASE_URL}/user/profile`, {
           cache: "no-store",
           headers: {
-            "Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${token}`,
+            "X-Authorization": token
           }
         });
         if (!res.ok) {

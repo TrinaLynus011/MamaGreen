@@ -31,22 +31,29 @@ def create_access_token(data: dict, expires_delta: timedelta = None) -> str:
 
 def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
     auth_header = request.headers.get("Authorization")
-    if not auth_header:
+    token = None
+    if auth_header:
+        try:
+            parts = auth_header.split()
+            if len(parts) == 2 and parts[0].lower() == "bearer":
+                token = parts[1]
+        except Exception:
+            pass
+            
+    if not token:
+        token = request.headers.get("X-Authorization")
+        
+    if not token:
+        token = request.query_params.get("token")
+        
+    if not token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Missing Authorization header",
+            detail="Missing Authorization credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
     
     try:
-        parts = auth_header.split()
-        if len(parts) != 2 or parts[0].lower() != "bearer":
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Authorization header must be in the format: Bearer <token>",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-        token = parts[1]
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id: int = payload.get("sub")
         if user_id is None:

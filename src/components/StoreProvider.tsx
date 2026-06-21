@@ -15,6 +15,7 @@ if (typeof window !== "undefined" && !(window as any).__fetchIntercepted) {
         init = init || {};
         const headers = init.headers ? { ...init.headers } : {};
         (headers as any)["Authorization"] = `Bearer ${token}`;
+        (headers as any)["X-Authorization"] = token;
         init.headers = headers as HeadersInit;
       }
     }
