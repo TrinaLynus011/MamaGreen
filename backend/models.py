@@ -148,7 +148,7 @@ def init_db():
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     db = SessionLocal()
     try:
-        user = db.query(User).first()
+        user = db.query(User).filter(User.email == "green@traveler.com").first()
         if not user:
             # Seed default user only on first run (empty database)
             from .auth import get_password_hash
