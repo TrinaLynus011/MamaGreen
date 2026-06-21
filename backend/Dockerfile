@@ -16,8 +16,9 @@ RUN useradd -m -u 1000 user || true
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy all backend code files and change ownership to user
-COPY --chown=user:user . /app/
+# Create package structure, set ownership, and copy all backend code files into 'backend' folder
+RUN mkdir -p /app/backend && touch /app/backend/__init__.py && chown -R user:user /app
+COPY --chown=user:user . /app/backend/
 
 # Switch to the non-root user
 USER user
@@ -25,5 +26,5 @@ USER user
 # Expose port 7860 for Hugging Face Spaces
 EXPOSE 7860
 
-# Run uvicorn server mapping to 7860
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
+# Run uvicorn server mapping to backend.main:app
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "7860"]
