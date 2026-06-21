@@ -1,0 +1,220 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-forest: var(--color-primary);
+  --color-brand-sage: var(--color-accent);
+  --color-brand-beige: var(--color-secondary);
+  --color-brand-cream: var(--color-bg-base);
+  --color-brand-brown: var(--color-text-base);
+  
+  --color-accent-leaf: #4CAF50;
+  --color-accent-moss: #689F38;
+  --color-accent-gold: #D4AF37;
+
+  --font-sans: var(--font-inter), sans-serif;
+  --font-poppins: var(--font-poppins), sans-serif;
+
+  --animate-float: float 4s ease-in-out infinite;
+  --animate-sway: sway 6s ease-in-out infinite;
+  --animate-pulse-slow: pulse-slow 3s ease-in-out infinite;
+  --animate-spin-slow: spin 8s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  @keyframes sway {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(5deg); }
+  }
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.95; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.02); }
+  }
+}
+
+:root {
+  --color-primary: #2E7D32;
+  --color-secondary: #81C784;
+  --color-accent: #81C784;
+  --color-bg-base: #F8FAF8;
+  --color-text-base: #1F2937;
+
+  --background: var(--color-bg-base);
+  --foreground: var(--color-text-base);
+}
+
+.theme-forest {
+  --color-primary: #2E7D32;
+  --color-secondary: #81C784;
+  --color-accent: #81C784;
+  --color-bg-base: #F8FAF8;
+  --color-text-base: #1F2937;
+}
+
+.theme-ocean {
+  --color-primary: #1565C0;
+  --color-secondary: #1E88E5;
+  --color-accent: #64B5F6;
+  --color-bg-base: #F0F4F8;
+  --color-text-base: #0D233A;
+}
+
+.theme-earth {
+  --color-primary: #795548;
+  --color-secondary: #8D6E63;
+  --color-accent: #A1887F;
+  --color-bg-base: #FAF6F0;
+  --color-text-base: #3E2723;
+}
+
+.dark {
+  --color-primary: #81C784;
+  --color-secondary: #4CAF50;
+  --color-accent: #2E7D32;
+  --color-bg-base: #121812;
+  --color-text-base: #E8F5E9;
+  
+  &.theme-forest {
+    --color-primary: #81C784;
+    --color-secondary: #4CAF50;
+    --color-accent: #2E7D32;
+    --color-bg-base: #121812;
+    --color-text-base: #E8F5E9;
+  }
+  &.theme-ocean {
+    --color-primary: #64B5F6;
+    --color-secondary: #1E88E5;
+    --color-accent: #1565C0;
+    --color-bg-base: #0F1722;
+    --color-text-base: #E3F2FD;
+  }
+  &.theme-earth {
+    --color-primary: #A1887F;
+    --color-secondary: #8D6E63;
+    --color-accent: #795548;
+    --color-bg-base: #1C1614;
+    --color-text-base: #EFEBE9;
+  }
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* ── Accessibility — Focus States (WCAG AA) ────────────────────────────────── */
+/* Visible keyboard focus ring on ALL interactive elements */
+
+*:focus-visible {
+  outline: 2px solid #2E5E4E;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Remove default outline only when using mouse (not keyboard) */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ── Accessibility — Skip Navigation ────────────────────────────────────────── */
+
+.skip-nav {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background: #2E5E4E;
+  color: #FAF8F3;
+  font-weight: 700;
+  border-radius: 0 0 8px 0;
+  transition: top 0.1s;
+}
+
+.skip-nav:focus {
+  top: 0;
+}
+
+/* ── Accessibility — Screen Reader Only ─────────────────────────────────────── */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Glassmorphism helpers ───────────────────────────────────────────────────── */
+
+.glass-panel {
+  background: rgba(250, 248, 243, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(46, 94, 78, 0.08);
+}
+
+.glass-panel-dark {
+  background: rgba(46, 94, 78, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(250, 248, 243, 0.1);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(143, 175, 143, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(107, 79, 58, 0.05);
+}
+
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px 0 rgba(46, 94, 78, 0.1);
+  border-color: rgba(46, 94, 78, 0.3);
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(143, 175, 143, 0.4);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(46, 94, 78, 0.5);
+}
+
+/* ── Reduced Motion ──────────────────────────────────────────────────────────── */
+/* Respect user's OS preference for reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
