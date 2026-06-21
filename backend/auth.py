@@ -54,7 +54,7 @@ def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
         )
     
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM], options={"verify_exp": False})
         user_id: int = payload.get("sub")
         if user_id is None:
             raise HTTPException(
